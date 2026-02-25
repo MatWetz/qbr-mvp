@@ -42,8 +42,8 @@ function SlideCanvas({ slide }: { slide: Slide }) {
   }
 
   return (
-    <Card className="h-full border border-slate-700/80 bg-[#0d1124]/90 shadow-[0_0_60px_rgba(14,22,60,0.6)] backdrop-blur-xl">
-      <CardHeader className="space-y-3 p-5 md:p-8">
+    <Card className="flex h-full flex-col overflow-hidden border border-slate-700/80 bg-[#0d1124]/90 shadow-[0_0_60px_rgba(14,22,60,0.6)] backdrop-blur-xl">
+      <CardHeader className="shrink-0 space-y-3 p-5 md:p-8">
         <Badge className="w-fit border-slate-600 bg-slate-800/80 text-slate-200">{slide.section.toUpperCase()}</Badge>
         <CardTitle className="font-mono text-2xl leading-tight text-slate-50 md:text-4xl">{slide.title}</CardTitle>
         {slide.type === "adoption-data" ? (
@@ -51,7 +51,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
         ) : null}
       </CardHeader>
 
-      <CardContent className="p-5 pt-0 md:p-8 md:pt-0">
+      <CardContent className="min-h-0 overflow-y-auto p-5 pt-0 md:p-8 md:pt-0">
         {slide.type === "agenda" ? (
           <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
             {slide.payload.bullets.map((item, index) => (
@@ -218,7 +218,7 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         </header>
 
         <section className="flex-1">
-<div className="h-[72dvh] md:h-[78dvh]" aria-live="polite" aria-atomic="true" role="region" aria-label="Slide canvas">
+          <div className="h-[72dvh] md:h-[78dvh]" aria-live="polite" aria-atomic="true" role="region" aria-label="Slide canvas">
             {activeSlide ? <SlideCanvas key={activeIndex} slide={activeSlide} /> : null}
           </div>
         </section>
