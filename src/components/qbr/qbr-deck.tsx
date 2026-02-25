@@ -51,7 +51,13 @@ function SlideCanvas({ slide }: { slide: Slide }) {
         ) : null}
       </CardHeader>
 
-      <CardContent className="min-h-0 overflow-y-auto p-5 pt-0 md:p-8 md:pt-0">
+      <CardContent
+        className="min-h-0 overflow-y-auto p-5 pt-0 outline-none focus-visible:ring-2 focus-visible:ring-orange-400/70 md:p-8 md:pt-0"
+        tabIndex={0}
+        role="region"
+        aria-label={`${slide.title} content`}
+        data-slide-scroll-region="true"
+      >
         {slide.type === "agenda" ? (
           <ul className="grid gap-3 text-sm text-slate-200 md:grid-cols-2 md:text-base">
             {slide.payload.bullets.map((item, index) => (
@@ -166,6 +172,11 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         target?.isContentEditable;
 
       if (isInteractive) {
+        return;
+      }
+
+      const activeElement = document.activeElement as HTMLElement | null;
+      if (activeElement?.closest('[data-slide-scroll-region="true"]')) {
         return;
       }
 
