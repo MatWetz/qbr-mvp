@@ -18,6 +18,14 @@ function LogoDot({ text }: { text: string }) {
   );
 }
 
+/**
+ * Render a slide as a themed Card whose content and layout vary by slide.type.
+ *
+ * Renders a full-height orange-accent cover layout when `slide.type === "cover"`, otherwise renders a slate/dark card and conditionally populates its header and content for `agenda`, `adoption-data`, `adoption-recommendation`, `next-steps`, or `roadmap` slide types.
+ *
+ * @param slide - Slide data that determines the card layout and content; expected types include `cover`, `agenda`, `adoption-data`, `adoption-recommendation`, `next-steps`, and `roadmap`.
+ * @returns The JSX element representing the rendered slide.
+ */
 function SlideCanvas({ slide }: { slide: Slide }) {
   if (slide.type === "cover") {
     return (
@@ -113,6 +121,14 @@ function SlideCanvas({ slide }: { slide: Slide }) {
   );
 }
 
+/**
+ * Renders an interactive QBR slide deck for the provided customer.
+ *
+ * Builds slides from the given customer data, manages the active slide state, and provides keyboard (ArrowLeft/ArrowRight/Space) and button controls for navigation. The rendered UI includes a header with navigation and customer info, a slide region announced to assistive technologies, and a footer showing navigation hints and the current slide index.
+ *
+ * @param customer - Customer data used to generate the slide deck
+ * @returns The rendered QBR deck UI for the provided customer
+ */
 export function QbrDeck({ customer }: { customer: CustomerData }) {
   const slides = useMemo(() => buildQbrSlides(customer), [customer]);
   const [activeIndex, setActiveIndex] = useState(0);

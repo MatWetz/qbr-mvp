@@ -38,6 +38,12 @@ export interface UsageCsvRow {
   info_comments_accepted: number;
 }
 
+/**
+ * Build a UsageCsvRow from a seed describing a single pull request event.
+ *
+ * @param seed - Values describing a PR (organization/repo identifiers and names, PR number, author info, timestamps, estimated complexity and review time, and per-category posted/accepted counts) used to populate the row.
+ * @returns A UsageCsvRow populated from `seed` where overall and per-category comment counts are set (some category counts are computed from the provided totals with minimums applied to ensure sensible values).
+ */
 function row(seed: {
   orgId: number;
   org: string;
