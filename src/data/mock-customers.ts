@@ -203,26 +203,28 @@ type MetricProfile = "full" | "outcome";
 function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendations"] {
   const posted = current.reduce((sum, row) => sum + row.total_coderabbit_comments_posted, 0);
   const accepted = acceptedTotal(current);
-  const majorCriticalAccepted = majorAndCriticalAccepted(current);
-
   const acceptanceRate = posted ? Math.round((accepted / posted) * 100) : 0;
+  const majorCriticalAccepted = majorAndCriticalAccepted(current);
 
   return [
     {
-      title: "Improve finding acceptance consistency",
-      detail: `Current acceptance is ${acceptanceRate}%. Target 80%+ by tightening reviewer ownership and SLA follow-up.`,
+      title: "Capture Learnings in Inline Review Replies",
+      detail:
+        "Reply to specific CodeRabbit comments with @coderabbitai so preferences are stored with exact code context, not as generic PR notes.",
     },
     {
-      title: "Prioritize higher-severity closure",
-      detail: `${majorCriticalAccepted} major/critical comments were accepted this period. Add weekly triage for unresolved high-impact findings.`,
+      title: "Separate Path Instructions from Guidelines",
+      detail:
+        "Use path_instructions to tell CodeRabbit how to review matched files, and keep CLAUDE.md/.cursorrules as Code Guidelines references.",
     },
     {
-      title: "Reduce first review lag in core repos",
-      detail: "Set repo-level review rotations for top-volume services to cut time-to-first-review.",
+      title: "Apply Targeted Review Strictness by Directory",
+      detail:
+        "Add path-based instructions for high-risk areas (auth, payments, infra) so review depth matches business-critical code paths.",
     },
     {
-      title: "Promote repeatable remediation",
-      detail: "Convert frequently accepted findings into coding standards and PR checklist rules.",
+      title: "Review Learnings Quarterly",
+      detail: `${majorCriticalAccepted} high-severity findings were accepted at ${acceptanceRate}% overall acceptance. Run quarterly cleanup to remove stale or conflicting learnings.`,
     },
   ];
 }
