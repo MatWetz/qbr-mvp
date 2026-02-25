@@ -56,7 +56,7 @@ export function QbrBuilder() {
 
       <Card className="relative z-10 w-full max-w-2xl border border-orange-500/30 bg-[#0a0b16]/90 shadow-[0_0_80px_rgba(255,95,40,0.12)] backdrop-blur-xl">
         <CardHeader className="space-y-4">
-          <Image src="/coderabbit-logo.svg" alt="CodeRabbit" width={170} height={34} />
+          <Image src="/coderabbit-logo-light.svg" alt="CodeRabbit" width={170} height={34} />
           <Badge className="w-fit border-orange-400/40 bg-orange-500/10 text-orange-300">QBR Launcher</Badge>
           <CardTitle className="font-mono text-2xl tracking-tight text-slate-50 md:text-3xl">
             Open Fullscreen QBR Deck
