@@ -1,17 +1,19 @@
 import { CustomerData, Slide } from "@/types/qbr";
 
 export function buildQbrSlides(customer: CustomerData): Slide[] {
+  const metricsMidpoint = Math.ceil(customer.adoptionMetrics.length / 2);
   const [firstDataSet, secondDataSet] = [
-    customer.adoptionMetrics.slice(0, 2),
-    customer.adoptionMetrics.slice(2),
+    customer.adoptionMetrics.slice(0, metricsMidpoint),
+    customer.adoptionMetrics.slice(metricsMidpoint),
   ];
 
+  const recommendationsMidpoint = Math.ceil(customer.recommendations.length / 2);
   const [firstRecommendations, secondRecommendations] = [
-    customer.recommendations.slice(0, 2),
-    customer.recommendations.slice(2),
+    customer.recommendations.slice(0, recommendationsMidpoint),
+    customer.recommendations.slice(recommendationsMidpoint),
   ];
 
-  return [
+  const slides: Slide[] = [
     {
       id: "cover",
       type: "cover",
@@ -22,22 +24,10 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
         customerLogoText: customer.logoText,
       },
     },
-    {
-      id: "agenda",
-      type: "agenda",
-      title: "Agenda",
-      section: "intro",
-      payload: {
-        bullets: [
-          "Welcome and goals",
-          "Adoption review",
-          "Recommendations",
-          "Next steps",
-          "Roadmap",
-        ],
-      },
-    },
-    {
+  ];
+
+  if (firstDataSet.length > 0) {
+    slides.push({
       id: "adoption-data-1",
       type: "adoption-data",
       title: "Adoption Review: Usage Signals",
@@ -46,8 +36,11 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
         metrics: firstDataSet,
         periodLabel: customer.periodLabel,
       },
-    },
-    {
+    });
+  }
+
+  if (secondDataSet.length > 0) {
+    slides.push({
       id: "adoption-data-2",
       type: "adoption-data",
       title: "Adoption Review: Outcomes",
@@ -56,8 +49,11 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
         metrics: secondDataSet,
         periodLabel: customer.periodLabel,
       },
-    },
-    {
+    });
+  }
+
+  if (firstRecommendations.length > 0) {
+    slides.push({
       id: "adoption-reco-1",
       type: "adoption-recommendation",
       title: "Recommendations: Adoption Levers",
@@ -65,8 +61,11 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
       payload: {
         recommendations: firstRecommendations,
       },
-    },
-    {
+    });
+  }
+
+  if (secondRecommendations.length > 0) {
+    slides.push({
       id: "adoption-reco-2",
       type: "adoption-recommendation",
       title: "Recommendations: Process Levers",
@@ -74,24 +73,42 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
       payload: {
         recommendations: secondRecommendations,
       },
+    });
+  }
+
+  slides.push({
+    id: "next-steps",
+    type: "next-steps",
+    title: "Next Steps",
+    section: "planning",
+    payload: {
+      bullets: customer.nextSteps,
     },
-    {
-      id: "next-steps",
-      type: "next-steps",
-      title: "Next Steps",
-      section: "planning",
-      payload: {
-        bullets: customer.nextSteps,
-      },
+  });
+
+  slides.push({
+    id: "roadmap",
+    type: "roadmap",
+    title: "Roadmap Highlights",
+    section: "planning",
+    payload: {
+      bullets: customer.roadmapItems,
     },
-    {
-      id: "roadmap",
-      type: "roadmap",
-      title: "Roadmap Highlights",
-      section: "planning",
-      payload: {
-        bullets: customer.roadmapItems,
-      },
+  });
+
+  const agendaBullets = slides
+    .filter((slide) => slide.type !== "cover")
+    .map((slide) => slide.title);
+
+  slides.splice(1, 0, {
+    id: "agenda",
+    type: "agenda",
+    title: "Agenda",
+    section: "intro",
+    payload: {
+      bullets: agendaBullets,
     },
-  ];
+  });
+
+  return slides;
 }

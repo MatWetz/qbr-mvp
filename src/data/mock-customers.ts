@@ -9,7 +9,7 @@ export const mockCustomers: CustomerData[] = [
     adoptionMetrics: [
       { label: "Active Repositories", current: 84, previous: 71, unit: "count" },
       { label: "PR Coverage", current: 76, previous: 63, unit: "percent" },
-      { label: "Avg. Review Turnaround", current: 18, previous: 25, unit: "count" },
+      { label: "Avg. Review Turnaround", current: 18, previous: 25, unit: "minutes" },
       { label: "Resolved Findings", current: 912, previous: 708, unit: "count" },
     ],
     recommendations: [
@@ -53,7 +53,7 @@ export const mockCustomers: CustomerData[] = [
     adoptionMetrics: [
       { label: "Active Repositories", current: 53, previous: 45, unit: "count" },
       { label: "PR Coverage", current: 68, previous: 59, unit: "percent" },
-      { label: "Avg. Review Turnaround", current: 21, previous: 29, unit: "count" },
+      { label: "Avg. Review Turnaround", current: 21, previous: 29, unit: "minutes" },
       { label: "Resolved Findings", current: 641, previous: 501, unit: "count" },
     ],
     recommendations: [

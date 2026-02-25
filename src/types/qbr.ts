@@ -6,13 +6,13 @@ export type SlideType =
   | "next-steps"
   | "roadmap";
 
-export type Trend = "up" | "down" | "flat";
+export type SlideSection = "intro" | "adoption" | "planning";
 
 export interface AdoptionMetric {
   label: string;
   current: number;
   previous: number;
-  unit: "percent" | "count";
+  unit: "percent" | "count" | "minutes";
 }
 
 export interface Recommendation {
@@ -31,17 +31,62 @@ export interface CustomerData {
   roadmapItems: string[];
 }
 
-export interface Slide {
+interface BaseSlide<TType extends SlideType, TPayload> {
   id: string;
   title: string;
-  type: SlideType;
-  section: "intro" | "adoption" | "planning";
-  payload?: {
-    metrics?: AdoptionMetric[];
-    recommendations?: Recommendation[];
-    bullets?: string[];
-    periodLabel?: string;
-    customerName?: string;
-    customerLogoText?: string;
-  };
+  type: TType;
+  section: SlideSection;
+  payload: TPayload;
 }
+
+export type CoverSlide = BaseSlide<
+  "cover",
+  {
+    customerName: string;
+    customerLogoText: string;
+  }
+>;
+
+export type AgendaSlide = BaseSlide<
+  "agenda",
+  {
+    bullets: string[];
+  }
+>;
+
+export type AdoptionDataSlide = BaseSlide<
+  "adoption-data",
+  {
+    metrics: AdoptionMetric[];
+    periodLabel: string;
+  }
+>;
+
+export type AdoptionRecommendationSlide = BaseSlide<
+  "adoption-recommendation",
+  {
+    recommendations: Recommendation[];
+  }
+>;
+
+export type NextStepsSlide = BaseSlide<
+  "next-steps",
+  {
+    bullets: string[];
+  }
+>;
+
+export type RoadmapSlide = BaseSlide<
+  "roadmap",
+  {
+    bullets: string[];
+  }
+>;
+
+export type Slide =
+  | CoverSlide
+  | AgendaSlide
+  | AdoptionDataSlide
+  | AdoptionRecommendationSlide
+  | NextStepsSlide
+  | RoadmapSlide;

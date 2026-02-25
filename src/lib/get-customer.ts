@@ -3,13 +3,13 @@ import { CustomerData } from "@/types/qbr";
 
 const LOOKUP_LATENCY_MS = 550;
 
-export async function getCustomerByName(name: string): Promise<CustomerData | null> {
-  await new Promise((resolve) => setTimeout(resolve, LOOKUP_LATENCY_MS));
-
+export async function getCustomerByQuery(name: string): Promise<CustomerData | null> {
   const query = name.trim().toLowerCase();
   if (!query) {
     return null;
   }
+
+  await new Promise((resolve) => setTimeout(resolve, LOOKUP_LATENCY_MS));
 
   return (
     mockCustomers.find((customer) => customer.name.toLowerCase() === query) ??

@@ -9,11 +9,19 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { mockCustomers } from "@/data/mock-customers";
 import { buildQbrSlides } from "@/lib/build-slides";
-import { getCustomerByName } from "@/lib/get-customer";
+import { getCustomerByQuery } from "@/lib/get-customer";
 import { AdoptionMetric, Recommendation, Slide } from "@/types/qbr";
 
 function formatMetricValue(metric: AdoptionMetric): string {
-  return metric.unit === "percent" ? `${metric.current}%` : `${metric.current}`;
+  if (metric.unit === "percent") {
+    return `${metric.current}%`;
+  }
+
+  if (metric.unit === "minutes") {
+    return `${metric.current} min`;
+  }
+
+  return `${metric.current}`;
 }
 
 function metricTrend(metric: AdoptionMetric): { label: string; tone: "default" | "secondary" | "destructive" } {
@@ -25,7 +33,7 @@ function metricTrend(metric: AdoptionMetric): { label: string; tone: "default" |
 
   const improved = metric.label === "Avg. Review Turnaround" ? diff < 0 : diff > 0;
   const prefix = diff > 0 ? "+" : "";
-  const suffix = metric.unit === "percent" ? "%" : "";
+  const suffix = metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : "";
   return {
     label: `${improved ? "Improved" : "Declined"} (${prefix}${diff}${suffix})`,
     tone: improved ? "default" : "destructive",
@@ -105,12 +113,10 @@ function SlideCanvas({ slide }: { slide: Slide }) {
           <div className="space-y-4">
             <Badge variant="secondary">Customer Success QBR</Badge>
             <CardTitle className="text-4xl tracking-tight text-slate-900">{slide.title}</CardTitle>
-            <CardDescription className="text-base text-slate-700">
-              {slide.payload?.customerName}
-            </CardDescription>
+            <CardDescription className="text-base text-slate-700">{slide.payload.customerName}</CardDescription>
           </div>
           <div className="flex items-center gap-4">
-            <LogoMark text={slide.payload?.customerLogoText ?? "C"} />
+            <LogoMark text={slide.payload.customerLogoText} />
             <span className="text-2xl text-slate-400">+</span>
             <LogoMark text="CR" />
           </div>
@@ -131,16 +137,16 @@ function SlideCanvas({ slide }: { slide: Slide }) {
           {slide.section.toUpperCase()}
         </Badge>
         <CardTitle className="text-3xl tracking-tight text-slate-900">{slide.title}</CardTitle>
-        {slide.payload?.periodLabel ? <CardDescription>{slide.payload.periodLabel}</CardDescription> : null}
+        {slide.type === "adoption-data" ? <CardDescription>{slide.payload.periodLabel}</CardDescription> : null}
       </CardHeader>
       <CardContent>
-        {slide.type === "agenda" ? <BulletList items={slide.payload?.bullets ?? []} /> : null}
-        {slide.type === "adoption-data" ? <DataList metrics={slide.payload?.metrics ?? []} /> : null}
+        {slide.type === "agenda" ? <BulletList items={slide.payload.bullets} /> : null}
+        {slide.type === "adoption-data" ? <DataList metrics={slide.payload.metrics} /> : null}
         {slide.type === "adoption-recommendation" ? (
-          <RecommendationsList recommendations={slide.payload?.recommendations ?? []} />
+          <RecommendationsList recommendations={slide.payload.recommendations} />
         ) : null}
-        {slide.type === "next-steps" ? <BulletList items={slide.payload?.bullets ?? []} /> : null}
-        {slide.type === "roadmap" ? <BulletList items={slide.payload?.bullets ?? []} /> : null}
+        {slide.type === "next-steps" ? <BulletList items={slide.payload.bullets} /> : null}
+        {slide.type === "roadmap" ? <BulletList items={slide.payload.bullets} /> : null}
       </CardContent>
     </Card>
   );
@@ -194,7 +200,7 @@ export function QbrBuilder() {
     setError(null);
 
     try {
-      const customer = await getCustomerByName(query);
+      const customer = await getCustomerByQuery(query);
 
       if (!customer) {
         setSlides([]);
@@ -234,7 +240,11 @@ export function QbrBuilder() {
             </Button>
           </form>
           <p className="text-sm text-slate-600">Available mock customers: {lookupExamples}</p>
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
+          {error ? (
+            <p className="text-sm text-red-600" role="alert" aria-live="assertive">
+              {error}
+            </p>
+          ) : null}
         </CardContent>
       </Card>
 

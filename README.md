@@ -1,6 +1,6 @@
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/MatWetz/qbr-template?utm_source=oss&utm_medium=github&utm_campaign=MatWetz%2Fqbr-template&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
-
 # QBR Template
+
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/MatWetz/qbr-mvp?utm_source=oss&utm_medium=github&utm_campaign=MatWetz%2Fqbr-mvp&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 A Customer Success QBR slide generator built with Next.js and shadcn/ui.
 
@@ -48,7 +48,3 @@ npm run build
 ## Deployment
 
 Deploy to Vercel by connecting this GitHub repository and using the default Next.js build settings.
-
-## Maintenance Note
-
-This README update exists to trigger the first CodeRabbit pull request review workflow.
