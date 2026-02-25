@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: false
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "src/**/*.{ts,tsx,js,jsx}"
+      instructions: |
+        This repository is a Next.js + TypeScript application.
+        Prioritize correctness of React/Next.js behavior, type safety, accessibility, and potential runtime issues.
+        Prefer actionable comments over stylistic nits when linting already covers the concern.
+    - path: "src/app/**/*.{ts,tsx}"
+      instructions: |
+        Validate Next.js App Router conventions:
+        - correct server/client component boundaries
+        - safe usage of browser APIs in client components only
+        - metadata/layout/page patterns that align with Next.js expectations
+        - avoidance of patterns that could break static rendering or hydration
+    - path: "**/*.{test,spec}.{ts,tsx,js,jsx}"
+      instructions: |
+        Focus on meaningful behavior coverage, edge cases, and reliability.
+        Flag brittle or implementation-coupled tests and suggest stronger assertions when needed.
+
+chat:
+  auto_reply: true
