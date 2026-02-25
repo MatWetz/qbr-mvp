@@ -101,7 +101,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
               {slide.payload.recommendations.map((recommendation, index) => (
                 <div
                   key={recommendation.title}
-                  className="relative overflow-hidden rounded-xl border border-slate-700 bg-[linear-gradient(135deg,rgba(255,122,32,0.08),rgba(14,20,44,0.9)_45%)] p-4"
+                  className="relative overflow-hidden rounded-xl border border-slate-700 bg-[#0a1128] p-4"
                 >
                   <span className="inline-flex items-center rounded-full border border-orange-300/30 bg-orange-500/15 px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
                     Highlight {index + 1}
@@ -131,7 +131,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
               {slide.payload.bullets.map((item, index) => (
                 <li
                   key={`${index}-${item}`}
-                  className="rounded-xl border border-slate-700 bg-[linear-gradient(155deg,rgba(255,122,32,0.1),rgba(8,12,30,0.95)_40%)] px-4 py-4"
+                  className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4"
                 >
                   <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
                     {slide.type === "next-steps" ? `Step ${index + 1}` : `Milestone ${index + 1}`}
