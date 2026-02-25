@@ -42,8 +42,8 @@ function SlideCanvas({ slide }: { slide: Slide }) {
   }
 
   return (
-    <Card className="h-full border border-slate-700/80 bg-[#0d1124]/90 shadow-[0_0_60px_rgba(14,22,60,0.6)] backdrop-blur-xl">
-      <CardHeader className="space-y-3 p-5 md:p-8">
+    <Card className="flex h-full flex-col overflow-hidden border border-slate-700/80 bg-[#0d1124]/90 shadow-[0_0_60px_rgba(14,22,60,0.6)] backdrop-blur-xl">
+      <CardHeader className="shrink-0 space-y-3 p-5 md:p-8">
         <Badge className="w-fit border-slate-600 bg-slate-800/80 text-slate-200">{slide.section.toUpperCase()}</Badge>
         <CardTitle className="font-mono text-2xl leading-tight text-slate-50 md:text-4xl">{slide.title}</CardTitle>
         {slide.type === "adoption-data" ? (
@@ -51,13 +51,21 @@ function SlideCanvas({ slide }: { slide: Slide }) {
         ) : null}
       </CardHeader>
 
-      <CardContent className="p-5 pt-0 md:p-8 md:pt-0">
+      <CardContent
+        className="min-h-0 overflow-y-auto p-5 pt-0 outline-none focus-visible:ring-2 focus-visible:ring-orange-400/70 md:p-8 md:pt-0"
+        tabIndex={0}
+        role="region"
+        aria-label={`${slide.title} content`}
+        data-slide-scroll-region="true"
+      >
         {slide.type === "agenda" ? (
-          <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
+          <ul className="grid gap-3 text-sm text-slate-200 md:grid-cols-2 md:text-base">
             {slide.payload.bullets.map((item, index) => (
-              <li key={`${index}-${item}`} className="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/40 px-3 py-3 md:px-4">
-                <span className="h-2 w-2 rounded-full bg-orange-400" />
-                {item}
+              <li key={`${index}-${item}`} className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4">
+                <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
+                  Topic {index + 1}
+                </span>
+                <p className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{item}</p>
               </li>
             ))}
           </ul>
@@ -101,7 +109,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
               {slide.payload.recommendations.map((recommendation, index) => (
                 <div
                   key={recommendation.title}
-                  className="relative overflow-hidden rounded-xl border border-slate-700 bg-[linear-gradient(135deg,rgba(255,122,32,0.08),rgba(14,20,44,0.9)_45%)] p-4"
+                  className="relative overflow-hidden rounded-xl border border-slate-700 bg-[#0a1128] p-4"
                 >
                   <span className="inline-flex items-center rounded-full border border-orange-300/30 bg-orange-500/15 px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
                     Highlight {index + 1}
@@ -131,7 +139,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
               {slide.payload.bullets.map((item, index) => (
                 <li
                   key={`${index}-${item}`}
-                  className="rounded-xl border border-slate-700 bg-[linear-gradient(155deg,rgba(255,122,32,0.1),rgba(8,12,30,0.95)_40%)] px-4 py-4"
+                  className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4"
                 >
                   <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
                     {slide.type === "next-steps" ? `Step ${index + 1}` : `Milestone ${index + 1}`}
@@ -164,6 +172,11 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         target?.isContentEditable;
 
       if (isInteractive) {
+        return;
+      }
+
+      const activeElement = document.activeElement as HTMLElement | null;
+      if (activeElement?.closest('[data-slide-scroll-region="true"]')) {
         return;
       }
 
@@ -218,7 +231,7 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         </header>
 
         <section className="flex-1">
-<div className="h-[72dvh] md:h-[78dvh]" aria-live="polite" aria-atomic="true" role="region" aria-label="Slide canvas">
+          <div className="h-[72dvh] md:h-[78dvh]" aria-live="polite" aria-atomic="true" role="region" aria-label="Slide canvas">
             {activeSlide ? <SlideCanvas key={activeIndex} slide={activeSlide} /> : null}
           </div>
         </section>
