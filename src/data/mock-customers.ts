@@ -201,10 +201,8 @@ function usageOutcomeMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
 type MetricProfile = "full" | "outcome";
 
 function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendations"] {
-  const posted = current.reduce((sum, row) => sum + row.total_coderabbit_comments_posted, 0);
-  const accepted = acceptedTotal(current);
-  const acceptanceRate = posted ? Math.round((accepted / posted) * 100) : 0;
   const majorCriticalAccepted = majorAndCriticalAccepted(current);
+  const majorCriticalRate = majorCriticalAcceptanceRate(current);
 
   return [
     {
@@ -224,7 +222,7 @@ function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendat
     },
     {
       title: "Review Learnings Quarterly",
-      detail: `${majorCriticalAccepted} high-severity findings were accepted at ${acceptanceRate}% overall acceptance. Run quarterly cleanup to remove stale or conflicting learnings.`,
+      detail: `${majorCriticalAccepted} high-severity findings were accepted at a ${majorCriticalRate}% high-severity acceptance rate. Run quarterly cleanup to remove stale or conflicting learnings.`,
     },
   ];
 }

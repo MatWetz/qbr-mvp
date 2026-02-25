@@ -17,6 +17,9 @@ reviews:
         This repository is a Next.js + TypeScript application.
         Prioritize correctness of React/Next.js behavior, type safety, accessibility, and potential runtime issues.
         Prefer actionable comments over stylistic nits when linting already covers the concern.
+        Do not enforce blanket docstring coverage for all TypeScript code.
+        Recommend JSDoc/docstrings only for exported/public APIs, shared utilities, or complex/non-obvious logic.
+        Skip docstring requests for trivial internal functions where types and naming already make intent clear.
     - path: "src/app/**/*.{ts,tsx}"
       instructions: |
         Validate Next.js App Router conventions:
