@@ -17,3 +17,12 @@ export async function getCustomerByQuery(name: string): Promise<CustomerData | n
     null
   );
 }
+
+export function getCustomerById(customerId: string): CustomerData | null {
+  const id = customerId.trim().toLowerCase();
+  if (!id) {
+    return null;
+  }
+
+  return mockCustomers.find((customer) => customer.id.toLowerCase() === id) ?? null;
+}
