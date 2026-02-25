@@ -199,7 +199,7 @@ export function QbrBuilder() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [hasDeck, slides.length]);
+  }, [slides.length]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
