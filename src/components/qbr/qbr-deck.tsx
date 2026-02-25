@@ -54,8 +54,8 @@ function SlideCanvas({ slide }: { slide: Slide }) {
       <CardContent className="p-5 pt-0 md:p-8 md:pt-0">
         {slide.type === "agenda" ? (
           <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
-            {slide.payload.bullets.map((item) => (
-              <li key={item} className="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/40 px-3 py-3 md:px-4">
+            {slide.payload.bullets.map((item, index) => (
+              <li key={`${index}-${item}`} className="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/40 px-3 py-3 md:px-4">
                 <span className="h-2 w-2 rounded-full bg-orange-400" />
                 {item}
               </li>
@@ -67,8 +67,10 @@ function SlideCanvas({ slide }: { slide: Slide }) {
           <div className="grid gap-3 md:grid-cols-2">
             {slide.payload.metrics.map((metric) => {
               const diff = metric.current - metric.previous;
-              const improved = metric.label === "Avg. Review Turnaround" ? diff < 0 : diff > 0;
+              const improved = diff === 0 ? null : metric.unit === "minutes" ? diff < 0 : diff > 0;
               const diffLabel = `${diff > 0 ? "+" : ""}${diff}${metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}`;
+              const statusClass = improved === null ? "text-slate-400" : improved ? "text-emerald-300" : "text-orange-300";
+              const statusLabel = improved === null ? "No change" : improved ? "Improved" : "Declined";
 
               return (
                 <div key={metric.label} className="rounded-xl border border-slate-700 bg-[#090d1d] p-4">
@@ -77,8 +79,8 @@ function SlideCanvas({ slide }: { slide: Slide }) {
                     {metric.current}
                     {metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}
                   </p>
-                  <p className={`mt-2 text-sm ${improved ? "text-emerald-300" : "text-orange-300"}`}>
-                    {improved ? "Improved" : "Declined"} ({diffLabel})
+                  <p className={`mt-2 text-sm ${statusClass}`}>
+                    {statusLabel} ({diffLabel})
                   </p>
                 </div>
               );
@@ -99,8 +101,8 @@ function SlideCanvas({ slide }: { slide: Slide }) {
 
         {slide.type === "next-steps" || slide.type === "roadmap" ? (
           <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
-            {slide.payload.bullets.map((item) => (
-              <li key={item} className="rounded-lg border border-slate-700 bg-slate-900/40 px-4 py-3">
+            {slide.payload.bullets.map((item, index) => (
+              <li key={`${index}-${item}`} className="rounded-lg border border-slate-700 bg-slate-900/40 px-4 py-3">
                 {item}
               </li>
             ))}
@@ -182,7 +184,9 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         </header>
 
         <section className="flex-1">
-          <div className="h-full min-h-[72dvh] md:min-h-[78dvh]">{activeSlide ? <SlideCanvas slide={activeSlide} /> : null}</div>
+          <div className="h-full min-h-[72dvh] md:min-h-[78dvh]" aria-live="polite" aria-atomic="true" role="region">
+            {activeSlide ? <SlideCanvas key={activeIndex} slide={activeSlide} /> : null}
+          </div>
         </section>
 
         <footer className="mt-3 flex items-center justify-between rounded-xl border border-slate-700/80 bg-[#080c1d]/75 px-3 py-2 text-xs text-slate-400 backdrop-blur md:mt-5 md:text-sm">
