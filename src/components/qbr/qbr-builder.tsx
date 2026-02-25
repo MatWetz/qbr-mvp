@@ -42,7 +42,7 @@ export function QbrBuilder() {
         return;
       }
 
-      router.push(`/deck/${customer.id}`);
+      router.push(`/deck/${encodeURIComponent(customer.id)}`);
     } finally {
       if (isMounted.current) {
         setLoading(false);
