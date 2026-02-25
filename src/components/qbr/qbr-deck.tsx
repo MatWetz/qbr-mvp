@@ -53,11 +53,13 @@ function SlideCanvas({ slide }: { slide: Slide }) {
 
       <CardContent className="min-h-0 overflow-y-auto p-5 pt-0 md:p-8 md:pt-0">
         {slide.type === "agenda" ? (
-          <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
+          <ul className="grid gap-3 text-sm text-slate-200 md:grid-cols-2 md:text-base">
             {slide.payload.bullets.map((item, index) => (
-              <li key={`${index}-${item}`} className="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/40 px-3 py-3 md:px-4">
-                <span className="h-2 w-2 rounded-full bg-orange-400" />
-                {item}
+              <li key={`${index}-${item}`} className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4">
+                <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
+                  Topic {index + 1}
+                </span>
+                <p className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{item}</p>
               </li>
             ))}
           </ul>
