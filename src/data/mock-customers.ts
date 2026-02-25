@@ -277,9 +277,9 @@ export const mockCustomers: CustomerData[] = [
       "Finalize remediation playbook for major findings",
     ],
     [
-      "Repository-level SLA tracking for first human review",
-      "Automated severity trend digest for customer success",
-      "Cross-team benchmark view for acceptance performance",
+      "Multi-Repo Analysis for cross-repository API and dependency impact",
+      "Issue Planner for generating actionable implementation plans from issues",
+      "Review Metrics API + Data Export for PR-level quality and velocity reporting",
     ],
   ),
   buildCustomer(
@@ -293,9 +293,9 @@ export const mockCustomers: CustomerData[] = [
       "Define escalation workflow for unaddressed major comments",
     ],
     [
-      "Dynamic repository scorecards for QBR prep",
-      "Auto-generated recommendations by severity trend",
-      "Planning integrations for quarterly quality objectives",
+      "Custom finishing touch recipes (early access) for reusable PR automation",
+      "Auto-pause after reviewed commits for review signal control at scale",
+      "Expanded tool coverage (Stylelint, TruffleHog, OpenGrep, TFLint, Trivy)",
     ],
   ),
 ];
