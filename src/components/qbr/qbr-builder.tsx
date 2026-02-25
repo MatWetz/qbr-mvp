@@ -58,11 +58,9 @@ export function QbrBuilder() {
         <CardHeader className="space-y-4">
           <Image src="/coderabbit-logo-dark.svg" alt="CodeRabbit" width={170} height={34} />
           <Badge className="w-fit border-orange-400/40 bg-orange-500/10 text-orange-300">QBR Launcher</Badge>
-          <CardTitle className="font-mono text-2xl tracking-tight text-slate-50 md:text-3xl">
-            Open Fullscreen QBR Deck
-          </CardTitle>
+          <CardTitle className="font-mono text-2xl tracking-tight text-slate-50 md:text-3xl">Open QBR Deck</CardTitle>
           <CardDescription className="text-slate-300">
-            Enter a customer name to open a dedicated fullscreen presentation route optimized for desktop and mobile.
+            Enter a customer name to open a dedicated presentation route optimized for desktop and mobile.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
