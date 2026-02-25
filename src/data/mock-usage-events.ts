@@ -62,7 +62,7 @@ function row(seed: {
   trivialAccepted: number;
 }): UsageCsvRow {
   return {
-    pr_url: `https://github.com/${seed.author}/qbr-mvp/pull/${seed.pr}`,
+    pr_url: `https://github.com/${seed.org.toLowerCase().replace(/\s+/g, "-")}/${seed.repo}/pull/${seed.pr}`,
     author_id: seed.authorId,
     author_username: seed.author,
     organization_id: seed.orgId,
