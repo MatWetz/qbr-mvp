@@ -236,7 +236,14 @@ function buildCustomer(
   roadmapItems: string[],
 ): CustomerData {
   const rows = mockUsageEvents.filter((event) => event.organization_name === name);
-  const quarterLabels = Array.from(new Set(rows.map((row) => toQuarterLabel(row.created_at)))).sort();
+  const quarterLabels = Array.from(new Set(rows.map((row) => toQuarterLabel(row.created_at)))).sort(
+    (a, b) => {
+      // "Q3 2025" → year=2025, q=3
+      const [aq, ay] = [parseInt(a[1]), parseInt(a.slice(3))];
+      const [bq, by] = [parseInt(b[1]), parseInt(b.slice(3))];
+      return ay !== by ? ay - by : aq - bq;
+    },
+  );
   const currentQuarter = quarterLabels[quarterLabels.length - 1];
   const previousQuarter = quarterLabels[quarterLabels.length - 2] ?? currentQuarter;
 
