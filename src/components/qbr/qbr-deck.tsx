@@ -34,7 +34,7 @@ function SlideCanvas({ slide }: { slide: Slide }) {
           <div className="flex items-center gap-3 text-slate-400">
             <LogoDot text={slide.payload.customerLogoText} />
             <span>+</span>
-            <Image src="/coderabbit-logo-light.svg" alt="CodeRabbit" width={160} height={32} className="h-8 w-auto" />
+            <Image src="/coderabbit-logo-dark.svg" alt="CodeRabbit" width={160} height={32} className="h-8 w-auto" />
           </div>
         </CardHeader>
       </Card>
@@ -155,7 +155,7 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[1800px] flex-col px-3 pb-4 pt-3 md:px-6 md:pb-6 md:pt-5">
         <header className="mb-3 flex items-center justify-between gap-3 rounded-xl border border-slate-700/80 bg-[#080c1d]/75 px-3 py-2 backdrop-blur md:mb-5 md:px-4 md:py-3">
           <div className="flex items-center gap-3">
-            <Image src="/coderabbit-logo-light.svg" alt="CodeRabbit" width={140} height={28} className="h-7 w-auto" />
+            <Image src="/coderabbit-logo-dark.svg" alt="CodeRabbit" width={140} height={28} className="h-7 w-auto" />
             <span className="text-xs text-slate-400 md:text-sm">{customer.name}</span>
           </div>
 
