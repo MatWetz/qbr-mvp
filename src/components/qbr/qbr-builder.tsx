@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,7 @@ function DataList({ metrics }: { metrics: AdoptionMetric[] }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant={trend.tone === "destructive" ? "destructive" : trend.tone}>
+              <Badge variant={trend.tone}>
                 {trend.label}
               </Badge>
             </CardContent>
@@ -158,6 +158,7 @@ export function QbrBuilder() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isMounted = useRef(true);
 
   const activeSlide = slides[activeIndex];
   const hasDeck = slides.length > 0;
@@ -166,6 +167,12 @@ export function QbrBuilder() {
     () => mockCustomers.map((customer) => customer.name).join(", "),
     [],
   );
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasDeck) {
@@ -208,6 +215,9 @@ export function QbrBuilder() {
 
     try {
       const customer = await getCustomerByQuery(query);
+      if (!isMounted.current) {
+        return;
+      }
 
       if (!customer) {
         setSlides([]);
@@ -219,7 +229,9 @@ export function QbrBuilder() {
       setSlides(nextSlides);
       setActiveIndex(0);
     } finally {
-      setLoading(false);
+      if (isMounted.current) {
+        setLoading(false);
+      }
     }
   };
 

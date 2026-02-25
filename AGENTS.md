@@ -16,3 +16,11 @@
 - Use small, focused commits.
 - Write clear commit messages that describe intent and scope.
 - Avoid mixing unrelated changes in one commit.
+
+## Continuous Learning
+
+- If an agent does something incorrectly, add a short note to this file immediately.
+- Each note must include:
+  - what went wrong,
+  - the corrected behavior,
+  - a concrete "do/don't" rule to prevent repeating the mistake.
