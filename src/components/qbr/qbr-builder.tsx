@@ -175,7 +175,14 @@ export function QbrBuilder() {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       const tag = target?.tagName?.toLowerCase();
-      if (tag === "input" || tag === "textarea") {
+      const isInteractive =
+        tag === "input" ||
+        tag === "textarea" ||
+        tag === "button" ||
+        tag === "select" ||
+        tag === "a" ||
+        target?.isContentEditable;
+      if (isInteractive) {
         return;
       }
 
