@@ -89,24 +89,58 @@ function SlideCanvas({ slide }: { slide: Slide }) {
         ) : null}
 
         {slide.type === "adoption-recommendation" ? (
-          <div className="grid gap-3 md:grid-cols-2">
-            {slide.payload.recommendations.map((recommendation) => (
-              <div key={recommendation.title} className="rounded-xl border border-slate-700 bg-[#090d1d] p-4">
-                <p className="font-medium text-slate-100">{recommendation.title}</p>
-                <p className="mt-2 text-sm text-slate-300">{recommendation.detail}</p>
-              </div>
-            ))}
+          <div className="space-y-4">
+            <div className="rounded-xl border border-slate-700/80 bg-slate-900/35 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-orange-300">Recommendation Focus</p>
+              <p className="mt-1 text-sm text-slate-300">
+                Prioritized best practices to improve review quality, consistency, and cross-team adoption.
+              </p>
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              {slide.payload.recommendations.map((recommendation, index) => (
+                <div
+                  key={recommendation.title}
+                  className="relative overflow-hidden rounded-xl border border-slate-700 bg-[linear-gradient(135deg,rgba(255,122,32,0.08),rgba(14,20,44,0.9)_45%)] p-4"
+                >
+                  <span className="inline-flex items-center rounded-full border border-orange-300/30 bg-orange-500/15 px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
+                    Highlight {index + 1}
+                  </span>
+                  <p className="mt-3 font-medium text-slate-100">{recommendation.title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{recommendation.detail}</p>
+                </div>
+              ))}
+            </div>
           </div>
         ) : null}
 
         {slide.type === "next-steps" || slide.type === "roadmap" ? (
-          <ul className="grid gap-3 text-sm text-slate-200 md:text-base">
-            {slide.payload.bullets.map((item, index) => (
-              <li key={`${index}-${item}`} className="rounded-lg border border-slate-700 bg-slate-900/40 px-4 py-3">
-                {item}
-              </li>
-            ))}
-          </ul>
+          <div className="space-y-4">
+            <div className="rounded-xl border border-slate-700/80 bg-slate-900/35 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-orange-300">
+                {slide.type === "next-steps" ? "Execution Priorities" : "Roadmap Priorities"}
+              </p>
+              <p className="mt-1 text-sm text-slate-300">
+                {slide.type === "next-steps"
+                  ? "Immediate actions to convert insights into measurable delivery outcomes."
+                  : "Upcoming investments to scale quality and impact across engineering."}
+              </p>
+            </div>
+
+            <ul className="grid gap-3 text-sm text-slate-200 md:grid-cols-2 md:text-base">
+              {slide.payload.bullets.map((item, index) => (
+                <li
+                  key={`${index}-${item}`}
+                  className="rounded-xl border border-slate-700 bg-[linear-gradient(155deg,rgba(255,122,32,0.1),rgba(8,12,30,0.95)_40%)] px-4 py-4"
+                >
+                  <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
+                    {slide.type === "next-steps" ? `Step ${index + 1}` : `Milestone ${index + 1}`}
+                  </span>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{item}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : null}
       </CardContent>
     </Card>
