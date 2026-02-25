@@ -184,7 +184,7 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
         </header>
 
         <section className="flex-1">
-          <div className="h-full min-h-[72dvh] md:min-h-[78dvh]" aria-live="polite" aria-atomic="true" role="region">
+          <div className="h-[72dvh] md:h-[78dvh]" aria-live="polite" aria-atomic="true" role="region">
             {activeSlide ? <SlideCanvas key={activeIndex} slide={activeSlide} /> : null}
           </div>
         </section>
