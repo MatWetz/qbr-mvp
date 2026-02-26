@@ -124,11 +124,26 @@
   body {
     @apply bg-background text-foreground;
     color-scheme: dark;
-
-    background-image:
-      radial-gradient(circle at 18% 12%, rgb(255 90 31 / 22%) 0%, transparent 45%),
-      radial-gradient(circle at 80% 4%, rgb(95 120 255 / 20%) 0%, transparent 38%),
-      linear-gradient(180deg, #05070f 0%, #090e1d 45%, #070b17 100%);
+    background-color: #03040a;
     min-height: 100dvh;
+  }
+}
+
+@layer utilities {
+  .coderabbit-grid-bg {
+    background-color: #03040a;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: center;
+  }
+
+  .coderabbit-grid-overlay {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 2%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 2%) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: center;
   }
 }
