@@ -1,4 +1,4 @@
-import { CustomerData } from "@/types/qbr";
+import { AdoptionMetric, CustomerData } from "@/types/qbr";
 import { mockUsageEvents, UsageCsvRow } from "@/data/mock-usage-events";
 
 function toQuarterLabel(isoDate: string): string {
@@ -98,20 +98,31 @@ function majorAndCriticalAccepted(rows: UsageCsvRow[]): number {
   );
 }
 
+function activeRepositoriesMetric(
+  current: UsageCsvRow[],
+  previous: UsageCsvRow[],
+): AdoptionMetric {
+  return {
+    label: "Active Repositories",
+    current: uniqueRepositoryCount(current),
+    previous: uniqueRepositoryCount(previous),
+    unit: "count",
+  };
+}
+
+function activeAuthorsMetric(current: UsageCsvRow[], previous: UsageCsvRow[]): AdoptionMetric {
+  return {
+    label: "Active Authors",
+    current: uniqueAuthorCount(current),
+    previous: uniqueAuthorCount(previous),
+    unit: "count",
+  };
+}
+
 function usageMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
   return [
-    {
-      label: "Active Repositories",
-      current: uniqueRepositoryCount(current),
-      previous: uniqueRepositoryCount(previous),
-      unit: "count" as const,
-    },
-    {
-      label: "Active Authors",
-      current: uniqueAuthorCount(current),
-      previous: uniqueAuthorCount(previous),
-      unit: "count" as const,
-    },
+    activeRepositoriesMetric(current, previous),
+    activeAuthorsMetric(current, previous),
     {
       label: "Reviewed PRs",
       current: current.length,
@@ -153,18 +164,8 @@ function usageMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
 
 function usageOutcomeMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
   return [
-    {
-      label: "Active Repositories",
-      current: uniqueRepositoryCount(current),
-      previous: uniqueRepositoryCount(previous),
-      unit: "count" as const,
-    },
-    {
-      label: "Active Authors",
-      current: uniqueAuthorCount(current),
-      previous: uniqueAuthorCount(previous),
-      unit: "count" as const,
-    },
+    activeRepositoriesMetric(current, previous),
+    activeAuthorsMetric(current, previous),
     {
       label: "Reviewed PRs",
       current: current.length,

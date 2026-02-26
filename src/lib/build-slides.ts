@@ -1,7 +1,9 @@
 import { CustomerData, Slide } from "@/types/qbr";
 
+const METRIC_SLIDE_LIMIT = 8;
+
 function firstEightMetrics(metrics: CustomerData["adoptionMetrics"]) {
-  return metrics.slice(0, 8);
+  return metrics.slice(0, METRIC_SLIDE_LIMIT);
 }
 
 export function buildQbrSlides(customer: CustomerData): Slide[] {
