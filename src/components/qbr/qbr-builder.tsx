@@ -51,8 +51,8 @@ export function QbrBuilder() {
   };
 
   return (
-    <main className="relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-8 text-slate-100">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,95,40,0.2),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(48,78,255,0.2),transparent_40%)]" />
+    <main className="coderabbit-grid-bg relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-8 text-slate-100">
+      <div className="coderabbit-grid-overlay pointer-events-none absolute inset-0" />
 
       <Card className="relative z-10 w-full max-w-2xl border border-orange-500/30 bg-[#0a0b16]/90 shadow-[0_0_80px_rgba(255,95,40,0.12)] backdrop-blur-xl">
         <CardHeader className="space-y-4">
