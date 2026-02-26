@@ -1,10 +1,17 @@
 import { CustomerData, Slide } from "@/types/qbr";
 
+const METRIC_SLIDE_LIMIT = 8;
+
+function firstEightMetrics(metrics: CustomerData["adoptionMetrics"]) {
+  return metrics.slice(0, METRIC_SLIDE_LIMIT);
+}
+
 export function buildQbrSlides(customer: CustomerData): Slide[] {
-  const metricsMidpoint = Math.ceil(customer.adoptionMetrics.length / 2);
+  const prioritizedMetrics = firstEightMetrics(customer.adoptionMetrics);
+  const metricsMidpoint = Math.ceil(prioritizedMetrics.length / 2);
   const [firstDataSet, secondDataSet] = [
-    customer.adoptionMetrics.slice(0, metricsMidpoint),
-    customer.adoptionMetrics.slice(metricsMidpoint),
+    prioritizedMetrics.slice(0, metricsMidpoint),
+    prioritizedMetrics.slice(metricsMidpoint),
   ];
 
   const recommendationsMidpoint = Math.ceil(customer.recommendations.length / 2);
@@ -82,7 +89,7 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
     title: "Next Steps",
     section: "planning",
     payload: {
-      bullets: customer.nextSteps,
+      items: customer.nextSteps,
     },
   });
 
@@ -92,7 +99,7 @@ export function buildQbrSlides(customer: CustomerData): Slide[] {
     title: "Roadmap Highlights",
     section: "planning",
     payload: {
-      bullets: customer.roadmapItems,
+      items: customer.roadmapItems,
     },
   });
 
