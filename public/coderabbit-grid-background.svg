@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+    </pattern>
+    <pattern id="gridOverlay" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" stroke="rgba(255,255,255,0.02)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#03040a" />
+  <rect width="1920" height="1080" fill="url(#grid)" />
+  <rect width="1920" height="1080" fill="url(#gridOverlay)" />
+</svg>

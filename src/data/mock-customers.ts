@@ -244,8 +244,28 @@ function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendat
         "Add path-based instructions for high-risk areas (auth, payments, infra) so review depth matches business-critical code paths.",
     },
     {
+      title: "Expand Adoption Champions Across Teams",
+      detail:
+        "Nominate one review champion per product team to drive onboarding and answer workflow questions. This improves consistency when new contributors join.",
+    },
+    {
+      title: "Standardize PR Templates for Better AI Context",
+      detail:
+        "Add required sections for scope, risk, and testing evidence in PR templates so CodeRabbit has stronger context and recommendations stay relevant.",
+    },
+    {
       title: "Review Learnings Quarterly",
       detail: `${majorCriticalAccepted} high-severity findings were accepted at a ${majorCriticalRate}% high-severity acceptance rate. Run quarterly cleanup to remove stale or conflicting learnings.`,
+    },
+    {
+      title: "Enforce Severity-Based Triage SLAs",
+      detail:
+        "Define response windows by severity and track SLA adherence weekly. This keeps major and critical findings from lingering in high-throughput repos.",
+    },
+    {
+      title: "Add Monthly Governance Calibration",
+      detail:
+        "Run a monthly calibration between platform and product leads to review false positives, rule conflicts, and policy drift before they impact delivery.",
     },
   ];
 }

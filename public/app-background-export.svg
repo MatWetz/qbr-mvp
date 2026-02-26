@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <linearGradient id="bgLinear" x1="960" y1="0" x2="960" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#05070f" />
+      <stop offset="0.45" stop-color="#090e1d" />
+      <stop offset="1" stop-color="#070b17" />
+    </linearGradient>
+    <radialGradient id="bgRadialOrange" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(346 130) rotate(0) scale(864 486)">
+      <stop offset="0" stop-color="#ff5a1f" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#ff5a1f" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="bgRadialBlue" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1536 43) rotate(0) scale(730 410)">
+      <stop offset="0" stop-color="#5f78ff" stop-opacity="0.2" />
+      <stop offset="1" stop-color="#5f78ff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bgLinear)" />
+  <rect width="1920" height="1080" fill="url(#bgRadialOrange)" />
+  <rect width="1920" height="1080" fill="url(#bgRadialBlue)" />
+</svg>
