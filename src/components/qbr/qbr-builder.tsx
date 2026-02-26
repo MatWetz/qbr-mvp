@@ -10,11 +10,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { getCustomerById } from "@/lib/get-customer";
 
-const ALLOWED_INPUTS = ["Acme Health", "Northstar Rail"] as const;
-const ALLOWED_CUSTOMER_IDS: Record<string, string> = {
-  "acme health": "acme",
-  "northstar rail": "northstar",
-};
+const ALLOWED_CUSTOMERS = [
+  { label: "Acme Health", id: "acme" },
+  { label: "Northstar Rail", id: "northstar" },
+] as const;
+
+const ALLOWED_INPUTS = ALLOWED_CUSTOMERS.map((customer) => customer.label);
+const ALLOWED_CUSTOMER_IDS = Object.fromEntries(
+  ALLOWED_CUSTOMERS.map((customer) => [customer.label.toLowerCase(), customer.id]),
+);
 
 export function QbrBuilder() {
   const router = useRouter();
@@ -51,7 +55,11 @@ export function QbrBuilder() {
       }
 
       if (!customer) {
-        setError('Only "Acme Health" and "Northstar Rail" are valid inputs.');
+        console.error("Missing customer dataset for allowed launcher input", {
+          input: query.trim(),
+          customerId,
+        });
+        setError(`Configuration error: dataset for "${query.trim()}" not found - contact admin.`);
         return;
       }
 
