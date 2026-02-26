@@ -2,10 +2,12 @@ import { CustomerData, Slide } from "@/types/qbr";
 
 const METRIC_SLIDE_LIMIT = 8;
 
+/** Returns the metric subset that can fit across the two KPI slides. */
 function firstEightMetrics(metrics: CustomerData["adoptionMetrics"]) {
   return metrics.slice(0, METRIC_SLIDE_LIMIT);
 }
 
+/** Builds the full QBR slide sequence for a selected customer. */
 export function buildQbrSlides(customer: CustomerData): Slide[] {
   const prioritizedMetrics = firstEightMetrics(customer.adoptionMetrics);
   const metricsMidpoint = Math.ceil(prioritizedMetrics.length / 2);

@@ -1,12 +1,14 @@
 import { AdoptionMetric, CustomerData } from "@/types/qbr";
 import { mockUsageEvents, UsageCsvRow } from "@/data/mock-usage-events";
 
+/** Converts an ISO timestamp into a quarter label like Q3 2025. */
 function toQuarterLabel(isoDate: string): string {
   const date = new Date(isoDate);
   const quarter = Math.floor(date.getUTCMonth() / 3) + 1;
   return `Q${quarter} ${date.getUTCFullYear()}`;
 }
 
+/** Calculates the average minutes from PR creation to first human review. */
 function avgReviewLagMinutes(rows: UsageCsvRow[]): number {
   if (!rows.length) {
     return 0;
@@ -21,6 +23,7 @@ function avgReviewLagMinutes(rows: UsageCsvRow[]): number {
   return Math.round(totalMinutes / rows.length);
 }
 
+/** Calculates percentage of CodeRabbit comments accepted in the interval. */
 function acceptedRate(rows: UsageCsvRow[]): number {
   const posted = rows.reduce((sum, row) => sum + row.total_coderabbit_comments_posted, 0);
   const accepted = rows.reduce((sum, row) => sum + row.total_coderabbit_comments_accepted, 0);
@@ -30,14 +33,17 @@ function acceptedRate(rows: UsageCsvRow[]): number {
   return Math.round((accepted / posted) * 100);
 }
 
+/** Counts unique repositories represented in the usage rows. */
 function uniqueRepositoryCount(rows: UsageCsvRow[]): number {
   return new Set(rows.map((row) => row.repository_name)).size;
 }
 
+/** Counts unique PR authors represented in the usage rows. */
 function uniqueAuthorCount(rows: UsageCsvRow[]): number {
   return new Set(rows.map((row) => row.author_username)).size;
 }
 
+/** Calculates mean estimated complexity score across reviewed PRs. */
 function avgEstimatedComplexity(rows: UsageCsvRow[]): number {
   if (!rows.length) {
     return 0;
@@ -47,6 +53,7 @@ function avgEstimatedComplexity(rows: UsageCsvRow[]): number {
   return Math.round(total / rows.length);
 }
 
+/** Calculates average number of CodeRabbit comments posted per PR. */
 function avgCommentsPerPr(rows: UsageCsvRow[]): number {
   if (!rows.length) {
     return 0;
@@ -56,6 +63,7 @@ function avgCommentsPerPr(rows: UsageCsvRow[]): number {
   return Math.round(posted / rows.length);
 }
 
+/** Calculates average minutes from PR creation to merge. */
 function avgMergeLeadMinutes(rows: UsageCsvRow[]): number {
   if (!rows.length) {
     return 0;
@@ -70,6 +78,7 @@ function avgMergeLeadMinutes(rows: UsageCsvRow[]): number {
   return Math.round(totalMinutes / rows.length);
 }
 
+/** Calculates acceptance rate for major and critical findings only. */
 function majorCriticalAcceptanceRate(rows: UsageCsvRow[]): number {
   const posted = rows.reduce(
     (sum, row) => sum + row.major_comments_posted + row.critical_comments_posted,
@@ -87,10 +96,12 @@ function majorCriticalAcceptanceRate(rows: UsageCsvRow[]): number {
   return Math.round((accepted / posted) * 100);
 }
 
+/** Sums all accepted CodeRabbit findings in the interval. */
 function acceptedTotal(rows: UsageCsvRow[]): number {
   return rows.reduce((sum, row) => sum + row.total_coderabbit_comments_accepted, 0);
 }
 
+/** Sums accepted major and critical findings in the interval. */
 function majorAndCriticalAccepted(rows: UsageCsvRow[]): number {
   return rows.reduce(
     (sum, row) => sum + row.major_comments_accepted + row.critical_comments_accepted,
@@ -98,6 +109,7 @@ function majorAndCriticalAccepted(rows: UsageCsvRow[]): number {
   );
 }
 
+/** Builds the shared "Active Repositories" KPI shape for both metric profiles. */
 function activeRepositoriesMetric(
   current: UsageCsvRow[],
   previous: UsageCsvRow[],
@@ -110,6 +122,7 @@ function activeRepositoriesMetric(
   };
 }
 
+/** Builds the shared "Active Authors" KPI shape for both metric profiles. */
 function activeAuthorsMetric(current: UsageCsvRow[], previous: UsageCsvRow[]): AdoptionMetric {
   return {
     label: "Active Authors",
@@ -119,6 +132,7 @@ function activeAuthorsMetric(current: UsageCsvRow[], previous: UsageCsvRow[]): A
   };
 }
 
+/** Builds the usage-oriented KPI deck for the current customer. */
 function usageMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
   return [
     activeRepositoriesMetric(current, previous),
@@ -162,6 +176,7 @@ function usageMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
   ];
 }
 
+/** Builds the outcomes-oriented KPI deck for the current customer. */
 function usageOutcomeMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
   return [
     activeRepositoriesMetric(current, previous),
@@ -207,6 +222,7 @@ function usageOutcomeMetrics(current: UsageCsvRow[], previous: UsageCsvRow[]) {
 
 type MetricProfile = "full" | "outcome";
 
+/** Builds recommendation cards using current-quarter performance context. */
 function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendations"] {
   const majorCriticalAccepted = majorAndCriticalAccepted(current);
   const majorCriticalRate = majorCriticalAcceptanceRate(current);
@@ -234,6 +250,7 @@ function usageRecommendations(current: UsageCsvRow[]): CustomerData["recommendat
   ];
 }
 
+/** Assembles one mock customer payload from usage events and planning content. */
 function buildCustomer(
   id: string,
   name: string,
