@@ -8,8 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { mockCustomers } from "@/data/mock-customers";
-import { getCustomerByQuery } from "@/lib/get-customer";
+import { getCustomerById } from "@/lib/get-customer";
+
+const ALLOWED_INPUTS = ["Acme Health", "Northstar Rail"] as const;
+const ALLOWED_CUSTOMER_IDS: Record<string, string> = {
+  "acme health": "acme",
+  "northstar rail": "northstar",
+};
 
 export function QbrBuilder() {
   const router = useRouter();
@@ -18,7 +23,7 @@ export function QbrBuilder() {
   const [error, setError] = useState<string | null>(null);
   const isMounted = useRef(true);
 
-  const lookupExamples = useMemo(() => mockCustomers.map((customer) => customer.name), []);
+  const lookupExamples = useMemo(() => [...ALLOWED_INPUTS], []);
 
   useEffect(() => {
     return () => {
@@ -32,13 +37,21 @@ export function QbrBuilder() {
     setError(null);
 
     try {
-      const customer = await getCustomerByQuery(query);
+      const input = query.trim().toLowerCase();
+      const customerId = ALLOWED_CUSTOMER_IDS[input];
+
+      if (!customerId) {
+        setError('Only "Acme Health" and "Northstar Rail" are valid inputs.');
+        return;
+      }
+
+      const customer = getCustomerById(customerId);
       if (!isMounted.current) {
         return;
       }
 
       if (!customer) {
-        setError("No mock customer found. Try one of the sample names below.");
+        setError('Only "Acme Health" and "Northstar Rail" are valid inputs.');
         return;
       }
 
@@ -68,7 +81,7 @@ export function QbrBuilder() {
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Example: Acme Health"
+              placeholder='Acme Health or Northstar Rail'
               className="border-slate-700 bg-[#101226] text-slate-100 placeholder:text-slate-400"
               aria-label="Customer Name"
             />
