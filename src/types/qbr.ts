@@ -20,6 +20,11 @@ export interface Recommendation {
   detail: string;
 }
 
+export interface CardItem {
+  headline: string;
+  detail: string;
+}
+
 export interface CustomerData {
   id: string;
   name: string;
@@ -27,8 +32,8 @@ export interface CustomerData {
   periodLabel: string;
   adoptionMetrics: AdoptionMetric[];
   recommendations: Recommendation[];
-  nextSteps: string[];
-  roadmapItems: string[];
+  nextSteps: CardItem[];
+  roadmapItems: CardItem[];
 }
 
 interface BaseSlide<TType extends SlideType, TPayload> {
@@ -72,14 +77,14 @@ export type AdoptionRecommendationSlide = BaseSlide<
 export type NextStepsSlide = BaseSlide<
   "next-steps",
   {
-    bullets: string[];
+    items: CardItem[];
   }
 >;
 
 export type RoadmapSlide = BaseSlide<
   "roadmap",
   {
-    bullets: string[];
+    items: CardItem[];
   }
 >;
 

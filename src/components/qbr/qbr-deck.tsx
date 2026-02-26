@@ -19,6 +19,17 @@ function LogoDot({ text }: { text: string }) {
 }
 
 function SlideCanvas({ slide }: { slide: Slide }) {
+  const kpiNarrative = (
+    current: number,
+    previous: number,
+    unit: "percent" | "count" | "minutes",
+    improved: boolean | null,
+  ) => {
+    const suffix = unit === "percent" ? "%" : unit === "minutes" ? " min" : "";
+    const movement = improved === null ? "held steady" : improved ? "improved" : "declined";
+    return `This quarter moved from ${previous}${suffix} to ${current}${suffix} and ${movement} versus last quarter.`;
+  };
+
   if (slide.type === "cover") {
     return (
       <Card className="h-full border border-orange-500/25 bg-[#0c0f22]/85 shadow-[0_0_70px_rgba(255,95,40,0.12)] backdrop-blur-xl">
@@ -82,13 +93,17 @@ function SlideCanvas({ slide }: { slide: Slide }) {
 
               return (
                 <div key={metric.label} className="rounded-xl border border-slate-700 bg-[#090d1d] p-4">
-                  <p className="text-xs uppercase tracking-[0.15em] text-slate-400">{metric.label}</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">KPI</p>
+                  <p className="mt-2 text-base font-semibold text-slate-100">{metric.label}</p>
                   <p className="mt-2 font-mono text-3xl text-slate-100">
                     {metric.current}
                     {metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}
                   </p>
                   <p className={`mt-2 text-sm ${statusClass}`}>
                     {statusLabel} ({diffLabel})
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                    {kpiNarrative(metric.current, metric.previous, metric.unit, improved)}
                   </p>
                 </div>
               );
@@ -136,15 +151,15 @@ function SlideCanvas({ slide }: { slide: Slide }) {
             </div>
 
             <ul className="grid gap-3 text-sm text-slate-200 md:grid-cols-2 md:text-base">
-              {slide.payload.bullets.map((item, index) => (
-                <li
-                  key={`${index}-${item}`}
-                  className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4"
-                >
-                  <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
-                    {slide.type === "next-steps" ? `Step ${index + 1}` : `Milestone ${index + 1}`}
-                  </span>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-100 md:text-base">{item}</p>
+              {slide.payload.items.map((item, index) => (
+                <li key={`${index}-${item.headline}`} className="rounded-xl border border-slate-700 bg-[#0a1128] px-4 py-4">
+                  {slide.type === "next-steps" ? (
+                    <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">
+                      {`Step ${index + 1}`}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 text-sm font-semibold text-slate-100 md:text-base">{item.headline}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{item.detail}</p>
                 </li>
               ))}
             </ul>
