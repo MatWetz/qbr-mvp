@@ -57,9 +57,6 @@ function SlideCanvas({ slide }: { slide: Slide }) {
       <CardHeader className="shrink-0 space-y-3 p-5 md:p-8">
         <Badge className="w-fit border-slate-600 bg-slate-800/80 text-slate-200">{slide.section.toUpperCase()}</Badge>
         <CardTitle className="font-mono text-2xl leading-tight text-slate-50 md:text-4xl">{slide.title}</CardTitle>
-        {slide.type === "adoption-data" ? (
-          <CardDescription className="text-slate-300">Reporting period: {slide.payload.periodLabel}</CardDescription>
-        ) : null}
       </CardHeader>
 
       <CardContent
@@ -83,31 +80,38 @@ function SlideCanvas({ slide }: { slide: Slide }) {
         ) : null}
 
         {slide.type === "adoption-data" ? (
-          <div className="grid gap-3 md:grid-cols-2">
-            {slide.payload.metrics.map((metric) => {
-              const diff = metric.current - metric.previous;
-              const improved = diff === 0 ? null : metric.unit === "minutes" ? diff < 0 : diff > 0;
-              const diffLabel = `${diff > 0 ? "+" : ""}${diff}${metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}`;
-              const statusClass = improved === null ? "text-slate-400" : improved ? "text-emerald-300" : "text-orange-300";
-              const statusLabel = improved === null ? "No change" : improved ? "Improved" : "Declined";
+          <div className="space-y-4">
+            <div className="rounded-xl border border-slate-700/80 bg-slate-900/35 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-orange-300">Reporting Period</p>
+              <p className="mt-1 text-sm text-slate-300">{slide.payload.periodLabel}</p>
+            </div>
 
-              return (
-                <div key={metric.label} className="rounded-xl border border-slate-700 bg-[#090d1d] p-4">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">KPI</p>
-                  <p className="mt-2 text-base font-semibold text-slate-100">{metric.label}</p>
-                  <p className="mt-2 font-mono text-3xl text-slate-100">
-                    {metric.current}
-                    {metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}
-                  </p>
-                  <p className={`mt-2 text-sm ${statusClass}`}>
-                    {statusLabel} ({diffLabel})
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-300">
-                    {kpiNarrative(metric.current, metric.previous, metric.unit, improved)}
-                  </p>
-                </div>
-              );
-            })}
+            <div className="grid gap-3 md:grid-cols-2">
+              {slide.payload.metrics.map((metric) => {
+                const diff = metric.current - metric.previous;
+                const improved = diff === 0 ? null : metric.unit === "minutes" ? diff < 0 : diff > 0;
+                const diffLabel = `${diff > 0 ? "+" : ""}${diff}${metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}`;
+                const statusClass = improved === null ? "text-slate-400" : improved ? "text-emerald-300" : "text-orange-300";
+                const statusLabel = improved === null ? "No change" : improved ? "Improved" : "Declined";
+
+                return (
+                  <div key={metric.label} className="rounded-xl border border-slate-700 bg-[#090d1d] p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-200">KPI</p>
+                    <p className="mt-2 text-base font-semibold text-slate-100">{metric.label}</p>
+                    <p className="mt-2 font-mono text-3xl text-slate-100">
+                      {metric.current}
+                      {metric.unit === "percent" ? "%" : metric.unit === "minutes" ? " min" : ""}
+                    </p>
+                    <p className={`mt-2 text-sm ${statusClass}`}>
+                      {statusLabel} ({diffLabel})
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                      {kpiNarrative(metric.current, metric.previous, metric.unit, improved)}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : null}
 
