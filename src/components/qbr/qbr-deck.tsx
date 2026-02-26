@@ -214,7 +214,7 @@ export function QbrDeck({ customer }: { customer: CustomerData }) {
 
   return (
     <main className="coderabbit-grid-bg relative min-h-dvh w-full overflow-hidden text-slate-100">
-      <div className="coderabbit-grid-overlay pointer-events-none absolute inset-0" />
+      <div aria-hidden="true" className="coderabbit-grid-overlay pointer-events-none absolute inset-0" />
 
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[1800px] flex-col px-3 pb-4 pt-3 md:px-6 md:pb-6 md:pt-5">
         <header className="mb-3 flex items-center justify-between gap-3 rounded-xl border border-slate-700/80 bg-[#080c1d]/75 px-3 py-2 backdrop-blur md:mb-5 md:px-4 md:py-3">
